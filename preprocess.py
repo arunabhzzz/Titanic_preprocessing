@@ -67,7 +67,7 @@ def encode_and_scale(data_df):
     data_df['Title_Mr'] = 0
     data_df['Title_Miss'] = 0
     data_df['Title_Master'] = 0
-    data_df['Title_Rare'] = 0
+    data_df['Title_rare'] = 0
     data_df.loc[data_df['Title'] == 'Mr', 'Title_Mr'] = 1
     data_df.loc[data_df['Title'] == 'Miss', 'Title_Miss'] = 1
     data_df.loc[data_df['Title'] == 'Master', 'Title_Master'] = 1
