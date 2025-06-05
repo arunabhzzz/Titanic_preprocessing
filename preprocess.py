@@ -4,7 +4,9 @@ def load_data():
     return pd.read_csv('../data/train.csv')
 
 def clean_data(data_df):
-    data_df.duplicated().sum() ##0 count so no need for dropping duplicated rows 
+    data_df.duplicated().sum()
+     ##0 count so no need for dropping duplicated rows
+    data_df.drop_duplicates(inplace=True) 
     data_df['Fare']=pd.to_numeric(data_df['Fare'], errors='coerce') ##checking for nan values in Fare if added 
     data_df['Fare'].notna().value_counts() ##since no false values we have no nan's introduced
     data_df.drop(columns=['Cabin'],inplace=True) ##deletes 'Cabin' column from data_df and updates it on the place 
@@ -21,6 +23,7 @@ def clean_data(data_df):
     data_df['Embarked'].fillna(modes,inplace=True)
     fare_median=data_df['Fare'].median() ##Fare missing values handled
     data_df['Fare'].fillna(fare_median,inplace=True)
+    data_df.drop_duplicates(inplace=True) 
     return data_df
 
 def engineer_features(data_df):
@@ -34,6 +37,7 @@ def engineer_features(data_df):
     data_df['isAlone'].value_counts()
     data_df['AgeBin'] = pd.qcut(data_df['Age'], 5, labels=False, duplicates='drop') ##age bin
     data_df['FareBin'] = pd.qcut(data_df['Fare'], 5, labels=False, duplicates='drop')## fare bin
+    data_df.drop_duplicates(inplace=True) 
     return data_df
 
 
@@ -84,6 +88,7 @@ def encode_and_scale(data_df):
 
     # Normalize Fare so now its beetween 0 to 1
     data_df['Fare'] = (data_df['Fare'] - data_df['Fare'].min()) / (data_df['Fare'].max() - data_df['Fare'].min())
+    data_df.drop_duplicates(inplace=True) 
     return data_df
 ## you can also do it in another way by using value_counts and then put normalise=True
 
@@ -92,6 +97,7 @@ def encode_and_scale(data_df):
 
     ##dropping columns {Name,Ticket,PassengerId}
 def save_outputs(data_df):
+    data_df.drop_duplicates(inplace=True) 
     data_df.to_csv('../output/cleaned.csv', index=False)
 
 
